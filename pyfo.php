@@ -303,6 +303,44 @@ class Plugin_Pyfo extends Plugin {
 		return $html;
 	}
 
+	/**
+	 * 	example tabs
+	 *  {{ pyfo:tabs }}
+	 *	 	{{ tab name="thename" label="the label" }}This is tab content for tab1{{ /tab }}
+ 	 *		{{ tab name="thename2" label="the label 2" }}This is tab content for tab 2{{ /tab }}
+	 *	{{ /pyfo:tabs }}
+	*/
+		
+	public function tabs()
+	{
+		$content = html_entity_decode($this->content()); // fuck you wysiwyg;
+
+		$tabs = '';
+		$tabs_content = '';
+
+		if(preg_match_all('@\{\{ tab(.[^\}]+)\}\}(.[^(\{\{)]+)\{\{ \/tab \}\}@', $content, $tab_tags, PREG_SET_ORDER))
+		{
+			foreach($tab_tags as $tab)
+			{
+				//get the attributes... in a crazy way ^^
+				//should maybe change that later to something more sensible
+				$attrs = json_decode('{' . substr(preg_replace('@(\s+)?(.[^=]+)="(.[^"]+)"@', '"$2":"$3",', $tab[1]), 0, -2) . '}');
+
+				// the tabs
+				$tabs .= '<dd><a href="#' . $attrs->name . '">' . $attrs->label . '</a></dd>';
+
+				// the tab content
+				// trim brs from the content start, those are probably just leftovers from the wysiwyg
+				$content = preg_replace('@<br(\s\/)?>$@', '', preg_replace('@^<br(\s\/)?>@', '', $tab[2]));
+				$tabs_content .= '<li id="' . $attrs->name . 'Tab">' . $content . '</li>';
+			}
+
+		}
+
+		return '<dl class="tabs">' . $tabs . '</dl><ul class="tabs-content">' . $tabs_content . '</ul>';
+	}
+
+
 	/*---------------------------------------------------------------------------------------------------------------*/
 
 	/*
