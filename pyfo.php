@@ -11,7 +11,7 @@
 
 class Plugin_Pyfo extends Plugin {
 
-	public $version = '0.4';
+	public $version = '0.7';
 
 	public $name = array(
 		'en'	=> 'Pyfo',
@@ -26,19 +26,87 @@ class Plugin_Pyfo extends Plugin {
 	public function _self_doc()
 	{
 		$info = array(
+			'row' => array(
+				'description' => array(
+					'en' => 'A grid row.'
+				),
+				'single' => false,
+				'double' => true,
+				'variables' => 'pyfo:columns width="four" }} Any content here {{ /pyfo:columns|pyfo:columns width="four" }} And then other content here {{ /pyfo:columns',
+				'attributes' => array(
+					'collapse' => array(
+						'type' => 'text',
+						'flags' => 'yes|no',
+						'default' => 'no',
+						'required' => false
+					),
+					'add_class' => array(
+						'type' => 'text',
+						'flags' => '',
+						'default' => ' ',
+						'required' => false
+					),
+				)
+			),
+			'columns' => array(
+				'description' => array(
+					'en' => 'A grid row.'
+				),
+				'single' => false,
+				'double' => true,
+				'variables' => 'Any content in here',
+				'attributes' => array(
+					'width' => array(
+						'type' => 'text',
+						'flags' => 'one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve',
+						'default' => 'twelve',
+						'required' => true
+					),
+					'offset' => array(
+						'type' => 'text',
+						'flags' => 'one|two|three|four|five|six|seven|eight|nine|ten|eleven',
+						'default' => ' ',
+						'required' => false
+					),
+					'centered' => array(
+						'type' => 'text',
+						'flags' => 'yes|no',
+						'default' => 'no',
+						'required' => false
+					),
+					'mobile' => array(
+						'type' => 'text',
+						'flags' => 'one|two|three',
+						'default' => ' ',
+						'required' => false
+					),
+					'end' => array(
+						'type' => 'text',
+						'flags' => 'yes|no',
+						'default' => 'no',
+						'required' => false
+					),
+					'add_class' => array(
+						'type' => 'text',
+						'flags' => '',
+						'default' => ' ',
+						'required' => false
+					),
+				)
+			),
 			'button' => array(
-				'description' => array(// a single sentence to explain the purpose of this method
+				'description' => array(
 					'en' => 'A button.'
 				),
-				'single' => false,// will it work as a single tag?
-				'double' => true,// how about as a double tag?
-				'variables' => '',// list all variables available inside the double tag. Separate them|like|this
+				'single' => true,
+				'double' => false,
+				'variables' => '',
 				'attributes' => array(
-					'element' => array(// this is the name="World" attribute
-						'type' => 'text',// Can be: slug, number, flag, text, array, any.
-						'flags' => '',// flags are predefined values like asc|desc|random.
-						'default' => 'submit',// this attribute defaults to this if no value is given
-						'required' => true,// is this attribute required?
+					'element' => array(
+						'type' => 'text',
+						'flags' => '',
+						'default' => 'submit',
+						'required' => true,
 					),
 					'label' => array(
 						'type' => 'text',
@@ -47,6 +115,7 @@ class Plugin_Pyfo extends Plugin {
 					),
 					'size' => array(
 						'type' => 'text',
+						'flags' => 'small|medium|large',
 						'default' => 'medium',
 						'required' => false
 					),
@@ -87,6 +156,249 @@ class Plugin_Pyfo extends Plugin {
 					)
 				),
 			),
+			'ddbutton' => array(
+				'description' => array(
+					'en' => 'A button with a dropdown.'
+				),
+				'single' => false,
+				'double' => true,
+				'variables' => 'link label="Link item 1" href="http://www.google.com" target="_new"|link label="Link item 2" href="http://www.google.com" target="_new"',
+				'attributes' => array(
+					'label' => array(
+						'type' => 'text',
+						'default' => 'Dropdwon Button',
+						'required' => true
+					),
+					'size' => array(
+						'type' => 'text',
+						'flags' => 'small|medium|large',
+						'default' => 'medium',
+						'required' => false
+					),
+					'type' => array(
+						'type' => 'text',
+						'default' => 'normal',
+						'required' => false
+					),
+					'style' => array(
+						'type' => 'text',
+						'default' => 'square',
+						'required' => false
+					),
+					'name' => array(
+						'type' => 'text',
+						'default' => '',
+						'required' => false
+					),
+					'href' => array(
+						'type' => 'text',
+						'default' => '',
+						'required' => false,
+					),
+					'title' => array(
+						'type' => 'text',
+						'default' => '',
+						'required' => false
+					),
+					'target' => array(
+						'type' => 'text',
+						'default' => '',
+						'required' => false
+					),
+					'add_class' => array(
+						'type' => 'text',
+						'default' => '',
+						'required' => false
+					)
+				),
+			),
+			'alert' => array(
+				'description' => array(
+					'en' => 'Alert the user in different ways.'
+				),
+				'single' => false,
+				'double' => true,
+				'variables' => 'This content may alert you!',
+				'attributes' => array(
+					'type' => array(
+						'type' => 'text',
+						'flags' => '[empty]|success|alert|secondary',
+						'default' => ' ',
+						'required' => false,
+					),
+					'add_class' => array(
+						'type' => 'text',
+						'default' => '',
+						'required' => false
+					)
+				),
+			),
+			'label' => array(
+				'description' => array(
+					'en' => 'A label in different styles.'
+				),
+				'single' => true,
+				'double' => false,
+				'variables' => 'This content may alert you!',
+				'attributes' => array(
+					'label' => array(
+						'type' => 'text',
+						'flags' => '',
+						'default' => 'Label',
+						'required' => false,
+					),
+					'type' => array(
+						'type' => 'text',
+						'flags' => '[empty]|success|alert|secondary',
+						'default' => ' ',
+						'required' => false,
+					),
+					'style' => array(
+						'type' => 'text',
+						'flags' => '[empty]|round|square',
+						'default' => ' ',
+						'required' => false,
+					),
+					'add_class' => array(
+						'type' => 'text',
+						'default' => '',
+						'required' => false
+					)
+				),
+			),
+			'panel' => array(
+				'description' => array(
+					'en' => 'A panel makes text stand out.'
+				),
+				'single' => false,
+				'double' => true,
+				'variables' => 'This content is important, so it looks different',
+				'attributes' => array(
+					'callout' => array(
+						'type' => 'text',
+						'flags' => 'yes|no',
+						'default' => 'no',
+						'required' => false,
+					),
+					'radius' => array(
+						'type' => 'text',
+						'flags' => 'yes|no',
+						'default' => 'no',
+						'required' => false,
+					),
+					'add_class' => array(
+						'type' => 'text',
+						'default' => '',
+						'required' => false
+					)
+				),
+			),
+			'orbit' => array(
+				'description' => array(
+					'en' => 'This generates a Orbit image slider. Remember to include the Orbit js and css scripts.'
+				),
+				'single' => true,
+				'double' => false,
+				'variables' => '',
+				'attributes' => array(
+					'slug' => array(
+						'type' => 'slug',
+						'flags' => '',
+						'default' => 'no',
+						'required' => true,
+					)
+				),
+			),
+			'clearing' => array(
+				'description' => array(
+					'en' => 'This generates a Clearing image galery. Remember to include the Clearing js and css scripts.'
+				),
+				'single' => true,
+				'double' => false,
+				'variables' => '',
+				'attributes' => array(
+					'slug' => array(
+						'type' => 'slug',
+						'flags' => '',
+						'default' => 'no',
+						'required' => true,
+					),
+					'per_row' => array(
+						'type' => 'text',
+						'flags' => 'one|two|three|four|five',
+						'default' => 'five',
+						'required' => false,
+					)
+				),
+			),
+			'reveal' => array(
+				'description' => array(
+					'en' => 'Generates a reveal button, which shows the tag content as a modal window/dialogT. Remember to include the Reveal js and css scripts and call pyfo:render_reveal at the end of the body tag in your layout.'
+				),
+				'single' => false,
+				'double' => true,
+				'variables' => 'This is the content for the Reveal modal.',
+				'attributes' => array(
+					'label' => array(
+						'type' => 'text',
+						'flags' => '',
+						'default' => 'Reveal Me',
+						'required' => true,
+					),
+					'size' => array(
+						'type' => 'text',
+						'flags' => 'expand|small|medium|large',
+						'default' => 'expand',
+						'required' => false,
+					),
+					'close' => array(
+						'type' => 'text',
+						'flags' => '',
+						'default' => '&#215;',
+						'required' => false,
+					)
+				),
+			),
+			'render_reveal' => array(
+				'description' => array(
+					'en' => 'Renders the reveal modal created by pyfo:reveal. Make sure to include this right before closing the body tag.'
+				),
+				'single' => true,
+				'double' => false,
+				'variables' => '',
+				'attributes' => array()
+			),
+			'tabs' => array(
+				'description' => array(
+					'en' => 'Creates tabs.'
+				),
+				'single' => false,
+				'double' => true,
+				'variables' => ' tab name="thename" label="the label" }}This is tab content for tab1{{ /tab | tab name="thename2" label="the label 2" }}This is tab content for tab 2{{ /tab ',
+				'attributes' => array(
+					'sizing' => array(
+						'type' => 'text',
+						'flags' => 'yes|no',
+						'default' => 'no',
+						'required' => false,
+					),
+					'contained' => array(
+						'type' => 'text',
+						'flags' => 'yes|no',
+						'default' => 'no',
+						'required' => false,
+					)
+				),
+			),
+			'accordion' => array(
+				'description' => array(
+					'en' => 'Creates an accordion.'
+				),
+				'single' => false,
+				'double' => true,
+				'variables' => ' accordion label="the label" }}This is the accordion content{{ /accordion | accordion label="the label 2" }}This is the accordion content for the other accordion. Accordion, accordion, accordion.{{ /accordion ',
+				'attributes' => array(),
+			),
 		);
 
 		return $info;
@@ -95,7 +407,7 @@ class Plugin_Pyfo extends Plugin {
 	/*
 	*	Grid functions
 	* 
-	 */
+	*/
 
 	public function row()
 	{
@@ -137,14 +449,8 @@ class Plugin_Pyfo extends Plugin {
 	}
 
 	/*
-	 * Smaller HTML components
-	 */
-	
-	/*
-	 *
-	 *	Buttons, so many buttons
-	 * 
-	 */
+	*	Smaller HTML components
+	*/
 
 	/*
 	*	A button with a big load of options
@@ -154,6 +460,8 @@ class Plugin_Pyfo extends Plugin {
 	{
 		// element type, can be button, submit or a (link tag)
 		$element = $this->attribute('element', 'submit');
+		// the label
+		$label = $this->attribute('label', 'Button');
 		// size can be small, medium or large
 		$size = $this->attribute('size', 'medium');
 		// type can be normal (standard option), success, alert or secondary
@@ -175,9 +483,6 @@ class Plugin_Pyfo extends Plugin {
 		// target for a
 		$target = $this->attribute('target', '');
 
-		// the label or text for a
-		$label = strip_tags($this->content());
-
 		// build the classes
 		$class_attr = $this->_build_class_attr('button', $size, $style, $type, $add_class);
 
@@ -193,7 +498,6 @@ class Plugin_Pyfo extends Plugin {
 		{
 			return '<a href="' . $href . '" title="' . $title . '" ' . $class_attr . '" target="' . $target . '">' . $label . '</a>';
 		}
-
 	}
 
 
@@ -202,7 +506,7 @@ class Plugin_Pyfo extends Plugin {
 	*	
 	*  Foundation docs: http://foundation.zurb.com/old-docs/f3/buttons.php#dropBtnEx
 	*/
-	public function dropdown_buttons()
+	public function ddbutton()
 	{
 		// size can be small, medium or large
 		$size = $this->attribute('size', 'medium');
@@ -214,38 +518,46 @@ class Plugin_Pyfo extends Plugin {
 		$label = $this->attribute('label', 'Dropdown Button');
 		// lets the option dropdown go up
 		$up = $this->attribute('up', 'no');
-
-		// additional classes
-		$add_class = $this->attribute('add_class', '');
-
-		$classes = $this->_build_class_attr('button', 'dropdown', $size, $style, $type, $up == 'yes' ? 'up' : '', $add_class);
-
-		return '<div' . $classes . '>' . $label . '<ul>' . $this->_build_dropdown_button_list() . '</ul></div>';
-	}
-
-	/*
-	*
-	*	A split button
-	* 	foundation docs: http://foundation.zurb.com/old-docs/f3/buttons.php#splitEx
-	 */
-	public function split_button()
-	{
-		// size can be small, medium or large
-		$size = $this->attribute('size', 'medium');
-		// type can be normal (standard option), success, alert or secondary
-		$type = $this->attribute('type', '');
-		// style can normal (standard, square), radius or round
-		$style = $this->attribute('style', '');
-		// label for the main button
-		$label = $this->attribute('label', 'Split Button');
-		// a link for the main button
+		// split
+		$split = $this->attribute('split', 'no');
+		// split button specific
 		$href = $this->attribute('href', '');
+		$target = $this->attribute('target', '');
+		$title = $this->attribute('title', '');
 		// additional classes
 		$add_class = $this->attribute('add_class', '');
 
-		$classes = $this->_build_class_attr('button split dropdown', $size, $style, $type, $add_class);
+		$dropdown = '';
+		$content = html_entity_decode($this->content()); // fuck you wysiwyg;
 
-		return '<div' . $classes . '><a href="' . $href . '">' . $label . '</a><span></span><ul>' . $this->_build_dropdown_button_list() . '</ul></div>';
+		if(preg_match_all('@\{\{(\s+)?link(.[^\}]+)\}\}@', $content, $links, PREG_SET_ORDER))
+		{
+			foreach($links as $link)
+			{
+				$attrs = json_decode('{' . substr(preg_replace('@(\s+)?(.[^=]+)="(.[^"]+)"@', '"$2":"$3",', $link[2]), 0, -2) . '}', true);
+
+				$label = $attrs['label']; unset($attrs['label']);
+				$href = $attrs['href']; unset($attrs['href']);
+
+				$dropdown .= '<li>' . anchor($href, $label, $attrs) . '</li>';
+			}
+		}
+
+		$split_html = '';
+		$btn_class = 'button';
+
+		if($split == 'yes')
+		{
+			$btn_class .= ' split';
+			$split_html = '<a href="' . $href . '"';
+			$split_html .= $target != '' ? ' target="' . $target . '"': '';
+			$split_html .= $title != '' ? ' title="' . $title . '"': '';
+			$split_html .= '>' . $label . '</a><span></span>';
+		}
+
+		$classes = $this->_build_class_attr($btn_class, 'dropdown', $split == 'yes' ? 'split' : '', $size, $style, $type, $up == 'yes' ? 'up' : '', $add_class);
+
+		return '<div' . $classes . '>' . $split_html . '<ul>' . $dropdown . '</ul></div>';
 	}
 
 	/*
@@ -281,6 +593,8 @@ class Plugin_Pyfo extends Plugin {
 	public function label()
 	{
 		// type can be '' (standard), success, alert or secondary
+		$label = $this->attribute('label', 'Label');
+		// type can be '' (standard), success, alert or secondary
 		$type = $this->attribute('type', '');
 		// style can normal (standard, square), radius or round
 		$style = $this->attribute('style', '');
@@ -289,7 +603,7 @@ class Plugin_Pyfo extends Plugin {
 
 		$classes = $this->_build_class_attr('label', $style, $type, $add_class);
 
-		return '<span' . $classes . '>' . $this->content() . '</span>';
+		return '<span' . $classes . '>' . $label . '</span>';
 	}
 
 	/*
@@ -323,7 +637,8 @@ class Plugin_Pyfo extends Plugin {
 	*	Orbit - an image or content slider thing
 	* 
 	 */
-	public function orbit() {
+	public function orbit()
+	{
 
 		$slug = $this->attribute('slug', false);
 
@@ -397,8 +712,11 @@ class Plugin_Pyfo extends Plugin {
 	 */
 	public function reveal()
 	{
+		// the label of the reveal button
 		$label = $this->attribute('label', 'Reveal Me');
+		// site of the reveal modal, can be expand, small, medium or large
 		$size = $this->attribute('size', 'expand');
+		// the symbol/label of the close button
 		$close = $this->attribute('close', '&#215;');
 
 		$modals = $this->load->get_var('reveal-modals');
@@ -422,7 +740,7 @@ class Plugin_Pyfo extends Plugin {
 	* 
 	 */
 
-	public function render_modals()
+	public function render_reveal()
 	{
 		$modals = array();
 
