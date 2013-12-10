@@ -406,7 +406,7 @@ class Plugin_Pyfo extends Plugin {
 
 	/*
 	*	Grid functions
-	* 
+	*
 	*/
 
 	public function row()
@@ -474,7 +474,7 @@ class Plugin_Pyfo extends Plugin {
 		// button/submit specific attribute
 		// the name of the button
 		$name = $this->attribute('name', $element == 'submit' ? 'submit' : 'button');
-		
+
 		// anchor specific attributes
 		// title attribute for a
 		$title = $this->attribute('title', '');
@@ -503,7 +503,7 @@ class Plugin_Pyfo extends Plugin {
 
 	/*
 	*	A dropdown button
-	*	
+	*
 	*  Foundation docs: http://foundation.zurb.com/old-docs/f3/buttons.php#dropBtnEx
 	*/
 	public function ddbutton()
@@ -563,14 +563,14 @@ class Plugin_Pyfo extends Plugin {
 	/*
 	*
 	*	Those are all about labeling and yelling at the visitor
-	* 
+	*
 	 */
 
 	/*
 	*
 	*	An alert box, it's like an exclamation point.
 	*	foundation docs: http://foundation.zurb.com/old-docs/f3/elements.php#alertsEx
-	* 
+	*
 	 */
 	public function alert()
 	{
@@ -580,7 +580,7 @@ class Plugin_Pyfo extends Plugin {
 		$add_class = $this->attribute('add_class', '');
 
 		$classes = $this->_build_class_attr('alert-box', $type, $add_class);
-			
+
 		return '<div' . $classes . '>' . $this->content() . '</div>';
 	}
 
@@ -610,7 +610,7 @@ class Plugin_Pyfo extends Plugin {
 	*
 	*	A panel, for distinguished text.
 	*	http://foundation.zurb.com/old-docs/f3/elements.php#panelEx
-	* 
+	*
 	 */
 	public function panel()
 	{
@@ -635,7 +635,7 @@ class Plugin_Pyfo extends Plugin {
 	/*
 	*
 	*	Orbit - an image or content slider thing
-	* 
+	*
 	 */
 	public function orbit()
 	{
@@ -668,7 +668,7 @@ class Plugin_Pyfo extends Plugin {
 	*	http://foundation.zurb.com/old-docs/f3/clearing.php
 	*
 	*	{{ pyfo:clearing slug="image-folder" per_row="five" }}
-	* 
+	*
 	 */
 
 	public function clearing()
@@ -708,7 +708,7 @@ class Plugin_Pyfo extends Plugin {
 	* 	{{ pyfo:reveal label="Click me" size="large" }}
 	* 		<p>This is text and stuff.</p>
 	* 	{{ /pyfo:reveal }}
-	* 
+	*
 	 */
 	public function reveal()
 	{
@@ -737,7 +737,7 @@ class Plugin_Pyfo extends Plugin {
 	*	Place it right before the closing body tags
 	*
 	* 	{{ pyfo:render_modals }}
-	* 
+	*
 	 */
 
 	public function render_reveal()
@@ -760,14 +760,14 @@ class Plugin_Pyfo extends Plugin {
 	 *
 	 * 	Tabs, they are tabs.
 	 * 	http://foundation.zurb.com/old-docs/f3/tabs.php
-	 * 	
+	 *
 	 * 	example tabs
 	 *  {{ pyfo:tabs }}
 	 *	 	{{ tab name="thename" label="the label" }}This is tab content for tab1{{ /tab }}
  	 *		{{ tab name="thename2" label="the label 2" }}This is tab content for tab 2{{ /tab }}
 	 *	{{ /pyfo:tabs }}
 	*/
-		
+
 	public function tabs()
 	{
 		// tab sizing expands tabs to use full width
@@ -781,13 +781,13 @@ class Plugin_Pyfo extends Plugin {
 		$tabs_content = '';
 		$tab_count = 0; // for sizing
 
-		if(preg_match_all('@\{\{ tab(.[^\}]+)\}\}(.[^(\{\{)]+)\{\{ \/tab \}\}@', $content, $tab_tags, PREG_SET_ORDER))
+		if(preg_match_all('@\{\{ tab(.[^\}]+) \}\}(.*?)\{\{ \/tab \}\}@s', $content, $tab_tags, PREG_SET_ORDER))
 		{
 			foreach($tab_tags as $tab)
 			{
 				//get the attributes... in a crazy way ^^
 				//should maybe change that later to something more sensible
-				$attrs = json_decode('{' . substr(preg_replace('@(\s+)?(.[^=]+)="(.[^"]+)"@', '"$2":"$3",', $tab[1]), 0, -2) . '}');
+				$attrs = json_decode('{' . substr(preg_replace('@(\s+)?(.[^=]+)="(.[^"]+)"@', '"$2":"$3",', $tab[1]), 0, -1) . '}');
 
 				// the tabs
 				$tabs .= '<dd><a href="#' . $attrs->name . '">' . $attrs->label . '</a></dd>';
@@ -828,7 +828,7 @@ class Plugin_Pyfo extends Plugin {
 		}
 
 		$tabs_class = $this->_build_class_attr('tabs', $sizing != 'no' ? $sizing : '', $contained != 'no' ? 'contained' : '');
-		$content_class = $this->_build_class_attr('tabs-content', $contained != '' ? 'contained' : '');
+		$content_class = $this->_build_class_attr('tabs-content', $contained != 'no' ? 'contained' : '');
 
 		return '<dl' . $tabs_class . '>' . $tabs . '</dl><ul' . $content_class . '>' . $tabs_content . '</ul>';
 	}
@@ -837,9 +837,9 @@ class Plugin_Pyfo extends Plugin {
 	 *
 	 * 	An accordion, like tabs but different
 	 * 	http://foundation.zurb.com/old-docs/f3/elements.php#accEx
-	 * 
+	 *
 	 * 	Accordion tag example
-	 * 	
+	 *
 	 *  {{ pyfo:accordion }}
 	 *	 	{{ accordion label="the label" }}This is the accordion content{{ /accordion }}
  	 *		{{ accordion label="the label 2" }}This is the accordion content for the other accordion. Accordion, accordion, accordion.{{ /accordion }}
@@ -851,23 +851,22 @@ class Plugin_Pyfo extends Plugin {
 
 		$accordion = '<ul class="accordion">';
 
-		if(preg_match_all('@\{\{(\s+)?accordion(.[^\}]+)\}\}(.[^(\{\{)]+)\{\{ \/accordion \}\}@', $content, $accordion_tags, PREG_SET_ORDER))
+		if(preg_match_all('@\{\{ accordion(.[^\}]+) \}\}(.*?)\{\{ \/accordion \}\}@s', $content, $accordion_tags, PREG_SET_ORDER))
 		{
 			foreach($accordion_tags as $tag)
 			{
 				$accordion .= '<li>';
-
 				// get the attributes... in a crazy way ^^
 				// should maybe change that later to something more sensible
 				// could use a simpler version here, but maybe we'll get more attributes in the future
-				$attrs = json_decode('{' . substr(preg_replace('@(\s+)?(.[^=]+)="(.[^"]+)"@', '"$2":"$3",', $tag[2]), 0, -2) . '}');
+				$attrs = json_decode('{' . substr(preg_replace('@(\s+)?(.[^=]+)="(.[^"]+)"@', '"$2":"$3",', $tag[1]), 0, -1) . '}');
 
 				// the tabs
 				$accordion .= '<div class="title"><h5>' . $attrs->label . '</h5></div>';
 
 				// the tab content
 				// trim brs from the content start, those are probably just leftovers from the wysiwyg
-				$content = preg_replace('@<br(\s\/)?>$@', '', preg_replace('@^<br(\s\/)?>@', '', $tag[3]));
+				$content = preg_replace('@<br(\s\/)?>$@', '', preg_replace('@^<br(\s\/)?>@', '', $tag[2]));
 				$accordion .= '<div class="content">' . $content . '</div>';
 
 				$accordion .= '</li>';
